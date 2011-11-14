@@ -1,0 +1,127 @@
+@back_base: hsl(210, 35%, 50%);
+@back_dark: darken(@back_base, 40%);
+@back_light: lighten(@back_base, 20%);
+
+@front_base: hsl(210, 4%, 55%);
+@front_dark: darken(@front_base, 40%);
+@front_light: lighten(@front_base, 20%);
+
+@title: hsl(200, 70%, 50%);
+@white: darken(rgb(255, 255, 255), 15%);
+
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: lighten(@back_dark, 4%);
+    font-family: Helvetica, Arial, FreeSans, san-serif;
+    color: @white;
+}
+
+#header
+{
+    background-color: @back_dark;
+    border-bottom : 1px solid darken(@back_dark, 10%);
+}
+
+#header > div
+{
+    width: 700px;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+#header .description
+{
+    font-size: 1.2em;
+    margin-top: 30px;
+    font-style: italic;
+    color: @front_base;
+}
+
+#header .download
+{
+    float: right;
+}
+
+#content
+{
+    margin: 20px auto;
+    width: 700px;
+}
+
+h1
+{
+    font-size: 3.8em;
+    color: @front_base;
+    margin-bottom: 3px;
+}
+
+h1 .title
+{
+    color: @title;
+}
+
+h1 .small
+{
+    font-size: 0.4em;
+}
+
+h2
+{
+    margin-bottom: 1em;
+    font-size: 1.5em;
+    color: @front_base;
+}
+
+h2 + p
+{
+    margin-bottom: 2em;
+}
+
+h3
+{
+    font-size: 1em;
+}
+
+.code
+{
+    width: 100%;
+    padding: 5px;
+    border: 1px solid darken(@back_dark, 10%);
+    margin-bottom: 20px;
+    background-color: @back_dark;
+}
+
+.result
+{
+    border: 1px solid darken(@back_dark, 10%);
+    background-color: @back_dark;
+}
+
+#dock
+{
+    height: 100%;
+    margin: auto;
+}
+
+#dock tr
+{
+    vertical-align: bottom;
+}
+
+.icon
+{
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    background-color: @title;
+}
+
+
+ 

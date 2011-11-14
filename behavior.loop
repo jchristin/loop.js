@@ -1,0 +1,17 @@
+.icon
+{
+    var Size = 50;
+    var Opacity = 0.5;
+
+    var Dock = document.getElementById("dock");
+    if( IsMouseInside(Dock.parentNode) )
+    {
+        var Dist = Math.min( 200, Math.abs( MouseX - GetOffsetLeft( This ) ) );
+        Size = InterpolateEx( 50, 100, 200, 0, Dist);
+        Opacity = InterpolateEx( 0.5, 1, 200, 0, Dist);
+    }
+
+    This.style.width = "" + Size + "px";
+    This.style.height = "" + Size + "px";
+    This.style.opacity = Opacity;
+}
