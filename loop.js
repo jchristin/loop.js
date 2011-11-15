@@ -3,7 +3,7 @@
 // loop.js v1.0.0
 // http://julbaxter.github.com/loop.js/
 //
-// Copyright (c) 2011, Julien Christin
+// Copyright (c) 2011, Julien Christin, Frédéric Brachfogel
 // Licensed under the Apache 2.0 License.
 //
 ////////////////////////////////
