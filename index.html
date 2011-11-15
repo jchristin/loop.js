@@ -22,10 +22,7 @@
                     <a href="https://github.com/julbaxter/loop.js/tarball/master"><img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
                 </div>
 
-                <h1>
-                    <span class="title">loop.js</span>
-                    <span class="small">by julbaxter</span>
-                </h1>
+                <h1>loop.js</h1>
 
                 <div class="description">The same way that CSS provides style, loop.js brings the behavior</div>
             </div>
@@ -34,9 +31,9 @@
         <div id="content">
             <h2>What is it ?</h2>
             <p>
-                Loop.js is another way to put javascript code in web applications.
+                loop.js is another way to put javascript code in web applications.
                 It allow to bind pieces of code to HTML elements via CSS selectors.
-                The whole is then executed each loop iteration.<br><br>
+                The whole is executed each loop iteration.<br><br>
                 It turns the traditional event-driven programming in loop based programming, which is more confortable and more suitable for dynamic websites.
             </p>
 
@@ -50,51 +47,51 @@
 
             <h2>Example</h2>
             <h3>index.html</h3>
-            <div class="code">
-                <code>
-                    <span style="padding-left:0em"></span>&lt;head&gt;<br>
-                    <span style="padding-left:2em"></span>  &lt;link rel="loop" type="text/javascript" href="behavior.loop"&gt;<br>
-                    <span style="padding-left:0em"></span>&lt;/head&gt;<br>
-                    <span style="padding-left:0em"></span>&lt;body&gt;<br>
-                    <span style="padding-left:2em"></span>  &lt;table id="dock"&gt;<br>
-                    <span style="padding-left:4em"></span>      &lt;tr&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:6em"></span>          &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;<br>
-                    <span style="padding-left:4em"></span>      &lt;/tr&gt;<br>
-                    <span style="padding-left:2em"></span>  &lt;/table&gt;<br>
-                    <span style="padding-left:2em"></span>  &lt;script src="loop.js" type="text/javascript"&gt;&lt;/script&gt;<br>
-                    <span style="padding-left:0em"></span>&lt;/body&gt;
-                </code>
-            </div>
+            <code>
+                <ul>
+                    <li class="tab0">&lt;head&gt;</li>
+                    <li class="tab1">   &lt;link rel="loop" type="text/javascript" href="behavior.loop"&gt;</li>
+                    <li class="tab0">&lt;/head&gt;</li>
+                    <li class="tab0">&lt;body&gt;</li>
+                    <li class="tab1">   &lt;table id="dock"&gt;</li>
+                    <li class="tab2">       &lt;tr&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
+                    <li class="tab2">       &lt;/tr&gt;</li>
+                    <li class="tab1">   &lt;/table&gt;</li>
+                    <li class="tab1">   &lt;script src="loop.js" type="text/javascript"&gt;&lt;/script&gt;</li>
+                    <li class="tab0">&lt;/body&gt;</li>
+                </ul>
+            </code>
                 
             <h3>behavior.loop</h3>
-            <div class="code">
-                <code>
-                    <span style="padding-left:0em"></span>.icon<br>
-                    <span style="padding-left:0em"></span>{<br>
-                    <span style="padding-left:2em"></span>    var Size = 50;<br>
-                    <span style="padding-left:2em"></span>    var Opacity = 0.5;<br>
-                    <span style="padding-left:2em"></span><br>
-                    <span style="padding-left:2em"></span>    var Dock = document.getElementById( "dock" );<br>
-                    <span style="padding-left:2em"></span>    if( IsMouseInside( Dock.parentNode ) )<br>
-                    <span style="padding-left:2em"></span>    {<br>
-                    <span style="padding-left:4em"></span>        var Dist = Math.min( 200, Math.abs( MouseX - GetOffsetLeft( This ) ) );<br>
-                    <span style="padding-left:4em"></span>        Size = InterpolateEx( 50, 100, 200, 0, Dist);<br>
-                    <span style="padding-left:4em"></span>        Opacity = InterpolateEx( 0.5, 1, 200, 0, Dist);<br>
-                    <span style="padding-left:2em"></span>    }<br>
-                    <span style="padding-left:2em"></span><br>
-                    <span style="padding-left:2em"></span>    This.style.width = "" + Size + "px";<br>
-                    <span style="padding-left:2em"></span>    This.style.height = "" + Size + "px";<br>
-                    <span style="padding-left:2em"></span>    This.style.opacity = Opacity;<br>
-                    <span style="padding-left:0em"></span>}
-                </code>
-            </div>
+            <code>
+                <ul>
+                    <li class="tab0">.icon</li>
+                    <li class="tab0">{</li>
+                    <li class="tab1">   var Size = 50;</li>
+                    <li class="tab1">   var Opacity = 0.5;</li>
+                    <li class="tab0"></li>
+                    <li class="tab1">   var Dock = document.getElementById( "dock" );</li>
+                    <li class="tab1">   if( IsMouseInside( Dock.parentNode ) )</li>
+                    <li class="tab1">   {</li>
+                    <li class="tab2">       var Dist = Math.min( 200, Math.abs( MouseX - GetOffsetLeft( This ) ) );</li>
+                    <li class="tab2">       Size = InterpolateEx( 50, 100, 200, 0, Dist );</li>
+                    <li class="tab2">       Opacity = InterpolateEx( 0.5, 1, 200, 0, Dist );</li>
+                    <li class="tab1">   }</li>
+                    <li class="tab0"></li>
+                    <li class="tab1">   This.style.width = "" + Size + "px";</li>
+                    <li class="tab1">   This.style.height = "" + Size + "px";</li>
+                    <li class="tab1">   This.style.opacity = Opacity;</li>
+                    <li class="tab0">}</li>
+                </ul>
+            </code>
 
             <h3>Result: move your mouse over the boxes</h3>
             <div class="result" style="height:150px">
@@ -112,7 +109,11 @@
                 </table>
             </div>
 
-            <div id="output"></div>
+            <h2>Authors</h2>
+            <p>
+                Julien Christin (julbaxter)<br>
+                Frederic Brachfogel (fredbrach)
+            </p>
         </div>
         <script src="loop.js" type="text/javascript"></script>
     </body>
