@@ -1,26 +1,83 @@
-var Timer = 0;
-var Log = "";
-var Program = [];
-var ElementPath = [];
+////////////////////////////////
+//
+// loop.js v1.0.0
+// http://julbaxter.github.com/loop.js/
+//
+// Copyright (c) 2011, Julien Christin
+// Licensed under the Apache 2.0 License.
+//
+////////////////////////////////
 
-var This = null;
+var loop = {};
 
-var MouseX = 0;
-var MouseY = 0;
+loop.Program = [];
+loop.ElementPath = [];
 
-var SelectorRegExp = new RegExp("(\r\n|\r|\n)", "g" );
-var TagRegExp = new RegExp("[.#]", "g" );
+loop.MouseX = 0;
+loop.MouseY = 0;
 
-var StartTime = 0;
-var DeltaTime = 0;
+loop.SelectorRegExp = new RegExp("(\r\n|\r|\n)", "g" );
+loop.TagRegExp = new RegExp("[.#]", "g" );
 
-function Msg( Message )
+loop.DeltaTime = 0;
+
+////////////////////////////////
+
+loop.Log = function( Message )
 {
-    Log += Message + "<br>";
-    document.getElementById("output").innerHTML = Log;
+    if( typeof console == "object" )
+    {
+        console.log( "loop: " + Message );
+    }
 }
 
-function AreItemMatching( ItemSelector, ItemPath )
+loop.Clock =
+{
+    StartTime: 0,
+
+    Start: function()
+    {
+        StartTime = (new Date).getTime();
+    },
+
+    GetElapsedTime: function( Restart )
+    {
+        var CurrentTime = (new Date).getTime();
+        var ElapsedTime = CurrentTime - StartTime;
+
+        if( Restart )
+        {
+            StartTime = CurrentTime;
+        }
+
+        return ElapsedTime;
+    }
+}
+
+loop.Timer =
+{
+    MinTime: 1,
+    Callback: null,
+    Timer: null,
+
+    Start: function()
+    {
+        loop.Clock.Start();
+
+        if( this.Timer == null )
+        {
+            this.Timer = setInterval( this.Callback, this.MinTime );
+        }
+    },
+
+    Stop: function()
+    {
+        clearTimeout( this.Timer );
+        this.Timer = null;
+    }
+}
+
+loop.AreItemMatching = function( ItemSelector, ItemPath )
 {
     if( ItemSelector.Tag != "" )
     {
@@ -29,7 +86,7 @@ function AreItemMatching( ItemSelector, ItemPath )
             return false;
         }
     }
-    
+
     if( ItemSelector.Class )
     {
         if( ItemPath.Class != ItemSelector.Class )
@@ -37,7 +94,7 @@ function AreItemMatching( ItemSelector, ItemPath )
             return false;
         }
     }
-    
+
     if( ItemSelector.Id )
     {
         if( ItemPath.Id != ItemSelector.Id )
@@ -49,14 +106,14 @@ function AreItemMatching( ItemSelector, ItemPath )
     return true;
 }
 
-function AreMatching( Selector, Path )
+loop.AreMatching = function( Selector, Path )
 {
-    if( AreItemMatching( Selector[Selector.length-1], Path[Path.length-1] ) )
+    if( this.AreItemMatching( Selector[Selector.length-1], Path[Path.length-1] ) )
     {
         var PathIndex = Path.length - 2;
         for( var I = Selector.length - 2 ; I >= 0 ; I-- )
         {
-            while( PathIndex >= 0 && AreItemMatching( Selector[I], Path[PathIndex] ) == false )
+            while( PathIndex >= 0 && this.AreItemMatching( Selector[I], Path[PathIndex] ) == false )
             {
                 PathIndex--;
             }
@@ -75,90 +132,69 @@ function AreMatching( Selector, Path )
     return false;
 }
 
-function GetFunction()
+loop.GetFunction = function()
 {
-    for( var P = 0 ; P < Program.length ; P++ )
+    for( var P = 0 ; P < this.Program.length ; P++ )
     {
-        if( AreMatching( Program[P].Selector, ElementPath ) )
+        if( this.AreMatching( this.Program[P].Selector, this.ElementPath ) )
         {
-            return Program[P].Function;
+            return this.Program[P].Function;
         }
     }
 }
 
-function RunElement( Element )
+loop.ExecuteElement = function( Element )
 {
     var Child = Element.firstChild;
     while( Child )
     {
         if( Child.nodeType == Node.ELEMENT_NODE )
         {
-            ElementPath.push( {Tag:Child.nodeName.toLowerCase(), Class:Child.className, Id:Child.id} );
+            this.ElementPath.push( {Tag:Child.nodeName.toLowerCase(), Class:Child.className, Id:Child.id} );
 
-            var Func = GetFunction();
+            var Func = this.GetFunction();
             if( Func instanceof Function )
             {
-                This = Child;
-                Func();
-                This = null;
+                Func( Child);
             }
 
-            RunElement( Child);
-            
-            ElementPath.pop();
+            this.ExecuteElement( Child );
+
+            this.ElementPath.pop();
         }
-        
-        Child = Child.nextSibling; 
+
+        Child = Child.nextSibling;
     }
 }
 
-function Run()
+loop.Iterate = function()
 {
-    var Time = (new Date).getTime();
-    DeltaTime = Time - StartTime;
-    StartTime = Time;
-
-    RunElement( document );
+    loop.DeltaTime = loop.Clock.GetElapsedTime( true );
+    loop.ExecuteElement( document );
 }
 
-function Play()
-{
-    StartTime = (new Date).getTime();
-
-    if( Timer == 0 )
-    {
-        Timer = setInterval( Run, 1 );
-    }
-}
-
-function Stop()
-{
-    clearTimeout( Timer );
-    Timer = 0;
-}
-
-function AddFunction( Selector, Function )
+loop.AddFunction = function( Selector, Function )
 {
     var Entry = {};
     Entry.Selector = [];
-    eval( "Entry.Function = function(){" + Function + "}" );
- 
+    eval( "Entry.Function = function( This ){" + Function + "}" );
+
     var Items = Selector.split(" ");
     for( var I = 0 ; I < Items.length ; I++ )
     {
         var Item = {};
 
-        Item.Tag = Items[I].split(TagRegExp)[0];
+        Item.Tag = Items[I].split(this.TagRegExp)[0];
         Item.Class = Items[I].split(".")[1];
         Item.Id = Items[I].split("#")[1];
-        
+
         Entry.Selector.push( Item );
     }
 
-    Program.push( Entry );
+    this.Program.push( Entry );
 }
 
-function ParseString( String )
+loop.ParseString = function( String )
 {
     var Blocks = {};
 
@@ -185,72 +221,86 @@ function ParseString( String )
             BraceCount--;
             if( BraceCount == 0 )
             {
-                 var Selector = String.substring( SelectorIndex, FunctionIndex ).replace( SelectorRegExp, "" );
+                 var Selector = String.substring( SelectorIndex, FunctionIndex ).replace( this.SelectorRegExp, "" );
                  var Function = String.substring( FunctionIndex + 1, I );
-                 AddFunction( Selector, Function );
-    
+                 this.AddFunction( Selector, Function );
+
                  SelectorIndex = I + 1;
             }
         }
     }
 }
 
-function ParseFile( File )
+loop.ParseFile = function( File )
 {
     XMLHttp = new XMLHttpRequest();
     XMLHttp.open("GET", File, false);
     XMLHttp.send();
-    ParseString( XMLHttp.responseText );
+    this.ParseString( XMLHttp.responseText );
 }
 
-function ParseLinks()
+loop.ParseLinks = function()
 {
     var Links = document.getElementsByTagName("link");
     for( var I = 0 ; I < Links.length ; I++ )
     {
         if( Links[I].rel == "loop" )
         {
-            ParseFile( Links[I].href );
+            this.ParseFile( Links[I].href );
         }
     }
 }
 
-function OnMouseMove( Event )
+loop.Init = function()
 {
-    MouseX = Event.x + document.body.scrollLeft;
-    MouseY = Event.y + document.body.scrollTop;
+    var StartTime = (new Date).getTime();
+
+    this.ParseLinks();
+
+    var ElapsedTime = (new Date).getTime() - StartTime;
+    this.Log( "file(s) parsed and evaluated in " + ElapsedTime + "ms." );
+
+    this.Timer.Callback = this.Iterate;
+    this.Timer.Start();
 }
 
-function GetOffsetLeft( Element )
+loop.GetOffsetLeft = function( Element )
 {
-    return Element && Element.offsetLeft ? GetOffsetLeft( Element.offsetParent ) + Element.offsetLeft : 0;
+    return Element && Element.offsetLeft ? this.GetOffsetLeft( Element.offsetParent ) + Element.offsetLeft : 0;
 }
 
-function GetOffsetTop( Element )
+loop.GetOffsetTop = function( Element )
 {
-    return Element && Element.offsetTop ? GetOffsetTop( Element.offsetParent ) + Element.offsetTop : 0;
+    return Element && Element.offsetTop ? this.GetOffsetTop( Element.offsetParent ) + Element.offsetTop : 0;
 }
 
-function IsMouseInside( Element )
+loop.IsMouseInside = function( Element )
 {
-    var OffsetLeft = GetOffsetLeft( Element );
-    var OffsetTop = GetOffsetTop( Element );
+    var OffsetLeft = this.GetOffsetLeft( Element );
+    var OffsetTop = this.GetOffsetTop( Element );
 
-    return  MouseX > OffsetLeft && MouseX < OffsetLeft + Element.clientWidth
-        &&  MouseY > OffsetTop && MouseY < OffsetTop + Element.clientHeight;
+    return  this.MouseX > OffsetLeft && this.MouseX < OffsetLeft + Element.clientWidth
+        &&  this.MouseY > OffsetTop && this.MouseY < OffsetTop + Element.clientHeight;
 }
 
-function Interpolate( A, B, Time )
+loop.Interpolate = function( A, B, Time )
 {
     return A * ( 1 - Time ) + B * Time;
 }
 
-function InterpolateEx( A, B, TMin, TMax, Time )
+loop.InterpolateEx = function( A, B, TMin, TMax, Time )
 {
-    return Interpolate( A, B , ( Time - TMin ) / ( TMax - TMin ) );
+    return this.Interpolate( A, B , ( Time - TMin ) / ( TMax - TMin ) );
 }
 
-document.onmousemove = OnMouseMove;
+document.onmousemove = function( Event )
+{
+    loop.MouseX = Event.x + document.body.scrollLeft;
+    loop.MouseY = Event.y + document.body.scrollTop;
+}
 
-ParseLinks();
-Play();
+////////////////////////////////
+
+loop.Init();
+
+////////////////////////////////
