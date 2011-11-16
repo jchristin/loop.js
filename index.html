@@ -40,62 +40,58 @@
             <ol>
                 <li>Create a .loop file as you would for CSS and name it "whattyouwant.loop".</li>
                 <li>Write some javascript code in CSS selectors.</li>
-                <li> Link it as a CSS file.</li>
+                <li>Link it as a CSS file.</li>
                 <li>include loop.js and the end of the body element.</li>
             </ol>
 
             <h2>Example</h2>
             <h3>index.html</h3>
-            <code>
-                <ul>
-                    <li class="tab0">&lt;head&gt;</li>
-                    <li class="tab1">   &lt;link rel="loop" type="text/javascript" href="behavior.loop"&gt;</li>
-                    <li class="tab0">&lt;/head&gt;</li>
-                    <li class="tab0">&lt;body&gt;</li>
-                    <li class="tab1">   &lt;table id="dock"&gt;</li>
-                    <li class="tab2">       &lt;tr&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab3">           &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;</li>
-                    <li class="tab2">       &lt;/tr&gt;</li>
-                    <li class="tab1">   &lt;/table&gt;</li>
-                    <li class="tab1">   &lt;script src="loop.js" type="text/javascript"&gt;&lt;/script&gt;</li>
-                    <li class="tab0">&lt;/body&gt;</li>
-                </ul>
-            </code>
+            <pre>&lt;head&gt;
+&lt;link rel="loop" type="text/javascript" href="behavior.loop"&gt;
+    &lt;/head&gt;
+&lt;body&gt;
+    &lt;table id="dock"&gt;
+        &lt;tr&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+            &lt;td&gt;&lt;div class="icon"&gt;&lt;/div&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;script src="loop.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;/body&gt;</pre>
                 
             <h3>behavior.loop</h3>
-            <code>
-                <ul>
-                    <li class="tab0">.icon</li>
-                    <li class="tab0">{</li>
-                    <li class="tab1">   var Size = 50;</li>
-                    <li class="tab1">   var Opacity = 0.5;</li>
-                    <li class="tab0"></li>
-                    <li class="tab1">   var Dock = document.getElementById( "dock" );</li>
-                    <li class="tab1">   if( loop.IsMouseInside( Dock.parentNode ) )</li>
-                    <li class="tab1">   {</li>
-                    <li class="tab2">       var Dist = Math.min( 200, Math.abs( loop.MouseX - loop.GetOffsetLeft( This ) ) );</li>
-                    <li class="tab2">       Size = loop.InterpolateEx( 50, 100, 200, 0, Dist );</li>
-                    <li class="tab2">       Opacity = loop.InterpolateEx( 0.5, 1, 200, 0, Dist );</li>
-                    <li class="tab1">   }</li>
-                    <li class="tab0"></li>
-                    <li class="tab1">   This.style.width = "" + Size + "px";</li>
-                    <li class="tab1">   This.style.height = "" + Size + "px";</li>
-                    <li class="tab1">   This.style.opacity = Opacity;</li>
-                    <li class="tab0">}</li>
-                </ul>
-            </code>
+            <pre>.icon
+{
+    var Size = 50;
+    var Opacity = 0.5;
+
+    var Dock = document.getElementById( "dock" );
+    if( loop.IsMouseInside( Dock.parentNode ) )
+    {
+        var Dist = Math.min( 200, Math.abs( loop.MouseX - loop.GetOffsetLeft( This ) ) );
+        Size = loop.InterpolateEx( 50, 100, 200, 0, Dist );
+        Opacity = loop.InterpolateEx( 0.5, 1, 200, 0, Dist );
+    }
+
+    This.style.width = "" + Size + "px";
+    This.style.height = "" + Size + "px";
+    This.style.opacity = Opacity;
+}</pre>
 
             <h3>Result: move your mouse over the boxes</h3>
-            <div class="result" style="height:150px">
+            <div class="result">
                 <table id="dock">
                     <tr>
+                        <td><div class="icon"></div></td>
+                        <td><div class="icon"></div></td>
+                        <td><div class="icon"></div></td>
+                        <td><div class="icon"></div></td>
                         <td><div class="icon"></div></td>
                         <td><div class="icon"></div></td>
                         <td><div class="icon"></div></td>
@@ -103,7 +99,7 @@
                     </tr>
                 </table>
             </div>
-
+  
             <h2>Authors</h2>
             <ul>
                 <li>Julien Christin (julbaxter)</li>

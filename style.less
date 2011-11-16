@@ -89,7 +89,7 @@ ul, ol
     list-style-position: inside;
 }
 
-code ul
+pre
 {
     width: 100%;
     padding: 5px;
@@ -97,12 +97,6 @@ code ul
     margin-bottom: 20px;
     background-color: @back_dark;
 }
-
-.tab0 { padding-left: 0em; }
-.tab1 { padding-left: 2em; }
-.tab2 { padding-left: 4em; }
-.tab3 { padding-left: 6em; }
-.tab4 { padding-left: 8em; }
 
 .result
 {
@@ -113,7 +107,7 @@ code ul
 
 #dock
 {
-    height: 100%;
+    height: 150px;
     margin: auto;
 }
 
@@ -128,23 +122,4 @@ code ul
     height: 50px;
     margin: 5px;
     background-color: @title;
-}
-
-.menu
-{
-    float: left;
-    padding: 5px 20px;
-    border: 1px solid darken(@back_dark, 10%);
-    background-color: @back_dark;
-    color: @front_base;
-    cursor: default;
-}
-
-.menu .submenu
-{
-    padding: 5px 20px;
-    border: 1px solid darken(@back_dark, 10%);
-    background-color: @back_dark;
-    color: @front_base;
-    cursor: default;
 }
